@@ -1,11 +1,16 @@
 ﻿using IMDBDataImporter;
+using System.Collections.Immutable;
+using System.Data.SqlClient;
+
+string ConnString = "server=localhost;database=IMDB;" +
+            "user id=sa;password=imdbDaBomb;TrustServerCertificate=True";
 
 List<Title> titles = new List<Title>();
 
 foreach (string line in
     System.IO.File.ReadLines
     (@"C:\temp\title.basics.tsv\data.tsv")
-    .Skip(1).Take(1000))
+    .Skip(1).Take(50000))
 {
     string[] values = line.Split("\t");
     if (values.Length == 9)
@@ -20,8 +25,20 @@ foreach (string line in
 
 Console.WriteLine(titles.Count);
 
-NormalInserter myInserter = new NormalInserter();
-myInserter.InsertData(titles);
+DateTime before = DateTime.Now;
+
+SqlConnection sqlConn = new SqlConnection(ConnString);
+sqlConn.Open();
+
+IInserter myInserter = new PreparedInserter();
+myInserter.InsertData(sqlConn, titles);
+
+sqlConn.Close();
+
+DateTime after = DateTime.Now;
+
+Console.WriteLine("Tid: " + (after - before));
+
 
 bool ConvertToBool(string input)
 {
