@@ -16,11 +16,12 @@ namespace IMDBDataImporter
         public int? startYear { get; set; }
         public int? endYear { get; set; }
         public int? runtimeMinutes { get; set; }
+        public List<string> genres { get; set; }
 
         public Title(string tconst, string titleType, 
             string primaryTitle, string originalTitle, 
             bool isAdult, int? startYear, int? endYear, 
-            int? runtimeMinutes)
+            int? runtimeMinutes, string genresString)
         {
             this.tconst = tconst;
             this.titleType = titleType;
@@ -30,6 +31,8 @@ namespace IMDBDataImporter
             this.startYear = startYear;
             this.endYear = endYear;
             this.runtimeMinutes = runtimeMinutes;
+
+            genres = genresString.Split(",").ToList();
         }
     }
 }

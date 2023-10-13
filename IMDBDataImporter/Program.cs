@@ -10,7 +10,7 @@ List<Title> titles = new List<Title>();
 foreach (string line in
     System.IO.File.ReadLines
     (@"C:\temp\title.basics.tsv\data.tsv")
-    .Skip(1).Take(10000000))
+    .Skip(1).Take(10000))
 {
     string[] values = line.Split("\t");
     if (values.Length == 9)
@@ -18,7 +18,8 @@ foreach (string line in
         titles.Add(new Title(
             values[0], values[1], values[2], values[3],
             ConvertToBool(values[4]), ConvertToInt(values[5]),
-            ConvertToInt(values[6]), ConvertToInt(values[7])
+            ConvertToInt(values[6]), ConvertToInt(values[7]), 
+            values[8]
             ));
     }
 }
@@ -60,6 +61,7 @@ switch (input)
 if (myInserter != null)
 {
     myInserter.InsertData(sqlConn, titles);
+    GenreInserter.InsertGenres(sqlConn, titles);
 }
 
 sqlConn.Close();
