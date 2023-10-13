@@ -44,7 +44,9 @@ switch (input)
 {
     case "1":
         SqlCommand cmd = new SqlCommand(
-            "DELETE FROM Titles", sqlConn);
+            "DELETE FROM Titles; " +
+            "DELETE FROM Genres; " +
+            "DELETE FROM TitleGenres;", sqlConn);
         cmd.ExecuteNonQuery();
         break;
     case "2":
