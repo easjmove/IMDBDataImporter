@@ -28,6 +28,7 @@ namespace IMDBDataImporter
                     "INSERT INTO Genres(genre)" +
                     "OUTPUT INSERTED.ID " +
                     "VALUES ('" + genre + "')", sqlConn);
+                
                 try
                 {
                     SqlDataReader reader = sqlComm.ExecuteReader();
